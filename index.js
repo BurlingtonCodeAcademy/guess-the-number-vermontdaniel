@@ -1,16 +1,20 @@
 const readline = require('readline');
 const rl = readline.createInterface(process.stdin, process.stdout);
 
+
+
 function ask(questionText) {
   return new Promise((resolve, reject) => {
     rl.question(questionText, resolve);
   });
 }
+
+let range = [...Array(100).keys()].map(i => ++i);
 function getRandomNumber(number) {
-  let range = [...Array(100).keys()].map(i => ++i);
   return range[Math.floor(Math.random() * range.length)];
 }
-
+let filterHigher = range.filter(guessedNumber => guessedNumber > secretNumber);
+console.log(filterHigher)
 
 start();
 
@@ -22,17 +26,15 @@ async function start() {
  
   let guessedNumber = await ask(`Is the number ${getRandomNumber()}? `);
     while (guessedNumber !== 'yes') {
-
       let higherOrLower = await ask('Is it higher or lower? ');
-      if (higherOrLower == 'higher') {
+      if (higherOrLower == 'higher') { 
         await ask(`Is the number ${getRandomNumber()}? `);
       } else if (higherOrLower == 'lower') {
         await ask(`Is the number ${getRandomNumber()}? `);
        } else {
         console.log('Yes that is the answer!');
         return;
-       }
-        
+       }   
       }}
       
     
