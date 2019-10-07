@@ -19,9 +19,13 @@ async function start() {
   let secretNumber = await ask("What is your secret number?\nI won't peek, I promise...\n");
   console.log('You entered: ' + secretNumber);
   let guessedNumber = await ask(`Is the number ${getRandomNumber()}? `)
-    if (guessedNumber === 'No') {
-      console.log 
+    if (guessedNumber == 'no') {
+      console.log('Is it higher or lower?');
+    } else {
+      console.log('Yes that is the number!')
     }
+    if (guessedNumber == 'higher')
+    
     } 
   //process.exit();
 
