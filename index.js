@@ -6,6 +6,11 @@ function ask(questionText) {
     rl.question(questionText, resolve);
   });
 }
+function getRandomNumber(number) {
+  let range = [...Array(100).keys()].map(i => ++i);
+  return range[Math.floor(Math.random() * range.length)];
+    }
+
 
 start();
 
@@ -13,6 +18,15 @@ async function start() {
   console.log("Let's play a game where you (human) make up a number and I (computer) try to guess it.")
   let secretNumber = await ask("What is your secret number?\nI won't peek, I promise...\n");
   console.log('You entered: ' + secretNumber);
-  // Now try and complete the program.
-  process.exit();
-}
+  let guessedNumber = await ask(`Is the number ${getRandomNumber()}? `)
+    if (guessedNumber === 'No') {
+      console.log 
+    }
+    } 
+  //process.exit();
+
+
+//async function guessNumber() {
+//  let guessAnswer = await ask(`Is your number: ${getRandomNumber()}? `);
+//  return guessAnswer; 
+//}
