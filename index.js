@@ -16,20 +16,20 @@
   
   async function start() {
     console.log("Let's play a game where you (human) make up a number and I (computer) try to guess it.")
-    let secretNumber = await ask("What is your secret number?\nI won't peek, I promise...\n");
+    const secretNumber = await ask("What is your secret number?\nI won't peek, I promise...\n");
     console.log('You entered: ' + secretNumber);
-    let guessedNumber = await ask(`Is your number ${randomInteger(1, 100)}? `);
+    const guessedNumber = await ask(`Is your number ${randomInteger(1, 100)}? `);
     
 
     while (guessedNumber !== 'yes') {
         let highOrLow = await ask('Is it higher or lower? ');
 
-        if (highOrLow == 'higher') {
-        console.log('Higher');
+        if (highOrLow === 'higher') {
+        console.log('You need to guess higher.');
         await ask(`Is your number ${randomInteger(guessedNumber, secretNumber)}? `);
-      } else if (highOrLow == 'lower') {
-        console.log('Lower');
-        await ask(`Is your number ${randomInteger(secretNumber, guessedNumber)}? `);;
+      } else if (highOrLow === 'lower') {
+        console.log('You need to guess lower.');
+        await ask(`Is your number ${randomInteger(secretNumber, guessedNumber)}? `);
       } else
       return;
       }
