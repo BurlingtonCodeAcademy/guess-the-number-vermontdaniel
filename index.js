@@ -1,55 +1,55 @@
-  const readline = require('readline');
-  const rl = readline.createInterface(process.stdin, process.stdout);
-  
-  function ask(questionText) {
-    return new Promise((resolve, reject) => {
-      rl.question(questionText, resolve);
-    });
-  }
-  function randomInteger(min, max) {
-      let range = max - min + 1; 
-      return min + Math.floor(Math.random() * range);
-    }
-  
-  
-  start();
-  
-  async function start() {
+const readline = require('readline');
+const rl = readline.createInterface(process.stdin, process.stdout);
 
-    console.log("Let's play a game where you (human) make up a number and I (computer) try to guess it.")
-    let secretNumber = await ask("What is your secret number?\nI won't peek, I promise...\n");
-    console.log('You entered: ' + secretNumber);
-    let guessedNumber = await ask(`Is your number ${randomInteger(1, 100)}? `); //gets first random number
+function ask(questionText) {
+  return new Promise((resolve, reject) => {
+    rl.question(questionText, resolve);
+  });
+}
+function randomInteger(min, max) {
+  let range = max - min + 1;
+  return min + Math.floor(Math.random() * range);
+}
+//function getMedian(min, max) {
+//  return Math.round((max + min) / 2);
+//}
+
+start();
+async function start() {
+  let min = 0;
+  let max = 100;
+  let guess = randomInteger(min, max);
+
+
+  console.log("Let's play a game where you (human) make up a number and I (computer) try to guess it.")
+  let secretNumber = await ask("What is your secret number?\nI won't peek, I promise...\n");
+  console.log('You entered: ' + secretNumber);
+
+  let guessedNumber = await ask('Is this your number ' + guess + '? ');
+  let guessCounter = 1;
+
+  while (guessedNumber !== 'yes') {
     let highOrLow = await ask('Is it higher or lower? ');
 
-    while (highOrLow === 'higher' || 'lower') {
-      
+    if (highOrLow == 'higher') {
+      min = guess + 1;
+      console.log('You need to guess higher.');
+
+    } else if (highOrLow == 'lower') {
+      max = guess - 1;
+      console.log('You need to guess lower.');
+
+    } else { return }
+    console.log(min, max);
+    guess = randomInteger(min, max);
+    guessedNumber = await ask('Is your number ' + guess + '? ');
+    guessCounter++;
+
+    if (guessedNumber == 'yes') {
+      console.log('Great, I finally did it. It is over');
+      console.log('I guessed it it in ' + guessCounter + ' turns.');
+      process.exit();
     }
 
-
-    while (guessedNumber !== 'yes') { 
-        
-        let min = 1; 
-        let max = 100;
-        let currentGuess = guessedNumber  //unsure if this needs to be here
-
-        if (highOrLow === 'higher') {
-        min = currentGuess; //turn min into guessedNumber
-        max = secretNumber;
-        console.log('You need to guess higher.');
-        currentGuess = await ask(`Is your number ${randomInteger(min, max)}? `);
-        guessedNumber = currentGuess; // try to make currentGuess back into GUessed number to continue loop
-        
-      } else if (highOrLow === 'lower') {
-        min = secretNumber;
-        max = currentGuess; //turn max into guessedNumber
-        console.log('You need to guess lower.');
-        currentGuess = await ask(`Is your number ${randomInteger(min, max)}? `); 
-        guessedNumber = currentGuess; //try to make currentGuess back into guessedNumber
-
-      } else
-      return;
-      }}
-    
-    //process.exit();
-  
+  }
+}
